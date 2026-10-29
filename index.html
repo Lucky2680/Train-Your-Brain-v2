@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4C3FBF">
+<title>Train Your Brain</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+<!-- ============ LOGIN ============ -->
+<div id="auth" class="card">
+  <div class="logo">🧠 Train Your Brain</div>
+  <div id="authMain">
+    <p class="mute">Log in or create an account. Your data stays in this browser.</p>
+    <p><input id="u" placeholder="Username" autocomplete="username"></p>
+    <p><input id="p" type="password" placeholder="Password (6+ characters)" autocomplete="current-password"></p>
+    <div class="row"><button class="btn" id="login">Log in</button><button class="btn alt" id="reg">Register</button></div>
+    <p><a href="#" id="forgot">Forgot password?</a></p>
+  </div>
+  <div id="authForgot" class="hide">
+    <p class="mute">Enter your username, the recovery code you saved at sign-up, and a new password.</p>
+    <p><input id="fu" placeholder="Username"></p>
+    <p><input id="fc" placeholder="Recovery code" autocapitalize="characters"></p>
+    <p><input id="np" type="password" placeholder="New password (6+ characters)" autocomplete="new-password"></p>
+    <div class="row"><button class="btn" id="fsend">Reset password</button><button class="btn alt" id="fback">Back</button></div>
+  </div>
+  <div class="err" id="err"></div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" class="hide">
+  <div class="top"><div class="logo">🧠 Train Your Brain</div>
+    <div><span class="mute" id="who"></span> <button class="btn alt" id="out">Log out</button></div></div>
+  <div id="riskBanner" class="banner warn hide"></div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-t="dash">Dashboard</button><button class="tab" data-t="courses">Courses</button>
+    <button class="tab" data-t="ai">AI Tutor</button><button class="tab" data-t="type">Typing</button>
+    <button class="tab" data-t="settings">Settings</button>
+  </div>
+
+  <!-- Dashboard -->
+  <section id="t-dash">
+    <div class="card"><div class="split"><h2 id="lvl">Level 1</h2><span class="mute" id="xptxt"></span></div>
+      <div class="bar"><i id="xpbar"></i></div></div>
+    <div class="grid" style="margin-top:12px">
+      <div class="card"><div class="big" id="streak">0</div><span class="mute">🔥 Day streak</span></div>
+      <div class="card"><div class="big" id="goaltxt">0/1</div><span class="mute">Today's goal</span><div class="bar"><i id="goalbar"></i></div></div>
+      <div class="card"><div class="big" id="best">0</div><span class="mute">Best WPM</span></div>
+    </div>
+    <div class="card" style="margin-top:12px"><h3>Badges</h3><div class="badges" id="badges"></div></div>
+    <div class="grid" style="margin-top:12px">
+      <div class="card"><h3>Typing speed (WPM)</h3><div id="c1"></div></div>
+      <div class="card"><h3>Accuracy (%)</h3><div id="c2"></div></div>
+    </div>
+    <div class="card" style="margin-top:12px"><h3>Leaderboard (accounts on this device, last 7 days)</h3><div id="lb"></div></div>
+  </section>
+
+  <!-- Courses -->
+  <section id="t-courses" class="hide">
+    <div id="courseHome">
+      <h2>Choose your study line</h2><p class="mute">Pick a line, enrol in courses, then open lessons.</p>
+      <div class="grid" id="lines"></div>
+      <div class="card" style="margin-top:14px"><h3 id="lname"></h3><div id="clist"></div></div>
+    </div>
+    <div id="courseView" class="hide">
+      <button class="btn alt" id="cback">← Back to courses</button>
+      <div class="card" style="margin-top:12px"><div class="split"><h2 id="cname"></h2><span id="stars" class="stars"></span></div>
+        <div class="bar"><i id="cbar"></i></div><p class="mute" id="cprog"></p></div>
+      <div id="lessons"></div>
+    </div>
+  </section>
+
+  <!-- AI -->
+  <section id="t-ai" class="hide">
+    <div class="card"><h2>AI Tutor</h2><p class="mute" id="aictx"></p>
+      <div class="chat" id="chat"></div><div class="chips" id="chips"></div>
+      <div class="row"><input id="q" placeholder="Ask anything about your courses..."><button class="btn acc" id="ask">Ask</button></div>
+      <div class="err" id="aierr"></div></div>
+  </section>
+
+  <!-- Typing -->
+  <section id="t-type" class="hide">
+    <div class="card"><h2>Typing Training</h2>
+      <div class="tabs" id="lv"><button class="tab on" data-l="0">Beginner</button><button class="tab" data-l="1">Intermediate</button><button class="tab" data-l="2">Advanced</button></div>
+      <div class="stats"><div><div class="big" id="wpm">0</div><span class="mute">WPM</span></div><div><div class="big" id="acc">100%</div><span class="mute">Accuracy</span></div><div><div class="big" id="tm">0s</div><span class="mute">Time</span></div></div>
+      <div class="text" id="passage"></div>
+      <textarea id="ti" rows="3" placeholder="Start typing here..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+      <div class="row"><button class="btn alt" id="nw">New text</button><button class="btn acc" id="drill">Weak-key drill</button></div>
+      <p class="mute" id="tres"></p></div>
+  </section>
+
+  <!-- Settings -->
+  <section id="t-settings" class="hide">
+    <div class="card"><h3>Appearance</h3><label class="chk"><input type="checkbox" id="dark"> Dark mode</label>
+      <p><button class="btn alt hide" id="install">Install app</button></p></div>
+    <div class="card" style="margin-top:12px"><h3>Daily goal and reminders</h3>
+      <p><label class="mute">Daily goal (activities per day)</label><br>
+        <select id="sgoal"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></p>
+      <p><label class="chk"><input type="checkbox" id="snot"> Remind me when my streak is at risk (browser notification when the app opens)</label></p>
+      <button class="btn" id="ssave">Save</button> <span class="mute" id="smsg"></span></div>
+    <div class="card" style="margin-top:12px"><h3>AI Tutor key (optional)</h3>
+      <p class="mute">Without a key, the built-in tutor answers study plans, quizzes, lesson explanations and typing tips. Add an Anthropic API key for open-ended AI answers. The key is kept for this browser-tab session only and sent to Anthropic. It is still visible to browser users and is not safe for public deployment; use a server-side proxy for production.</p>
+      <p><input id="akey" type="password" placeholder="API key (starts with sk-ant-...)" autocomplete="off"></p>
+      <p><input id="amodel" placeholder="Model (default claude-sonnet-5)"></p>
+      <button class="btn" id="asave">Save for this session</button> <button class="btn alt" id="aclear">Remove key</button> <span class="mute" id="amsg"></span></div>
+    <div class="card" style="margin-top:12px"><h3>Change password</h3>
+      <p><input id="cp" type="password" placeholder="Current password" autocomplete="current-password"></p>
+      <p><input id="cn" type="password" placeholder="New password (6+ characters)" autocomplete="new-password"></p>
+      <button class="btn" id="psave">Change password</button> <span class="mute" id="pmsg"></span></div>
+    <div class="card" style="margin-top:12px"><h3>Send feedback</h3>
+      <p><select id="fk"><option value="general">General</option><option value="idea">Idea</option><option value="bug">Bug</option></select></p>
+      <p><textarea id="ft" rows="3" placeholder="Tell us what to improve..."></textarea></p>
+      <button class="btn" id="fsub">Save feedback on this device</button> <span class="mute" id="fmsg"></span></div>
+    <div class="card" style="margin-top:12px"><h3>My data</h3><p class="mute">Download your progress, feedback and usage counts as a JSON file.</p>
+      <button class="btn alt" id="export">Download my data</button></div>
+  </section>
+</div>
+</div>
+
+<!-- Onboarding -->
+<div id="onb" class="modal hide"><div class="card">
+  <h2>Welcome! 👋</h2><p class="mute">3 quick questions to set you up.</p>
+  <p><b>1. What do you want to study?</b></p>
+  <div class="chips" id="o1"><button class="chip" data-v="cs">💻 Computer Science</button><button class="chip" data-v="sci">🔬 Science</button><button class="chip" data-v="com">📊 Commerce</button><button class="chip" data-v="art">🎨 Arts & Language</button></div>
+  <p><b>2. How fast do you type?</b></p>
+  <div class="chips" id="o2"><button class="chip" data-v="0">Just starting</button><button class="chip" data-v="1">Okay</button><button class="chip" data-v="2">Fast</button></div>
+  <p><b>3. Daily goal?</b></p>
+  <div class="chips" id="o3"><button class="chip" data-v="1">1 activity</button><button class="chip" data-v="2">2 activities</button><button class="chip" data-v="3">3 activities</button></div>
+  <div class="row"><button class="btn" id="odone">Start learning</button><button class="btn alt" id="oskip">Skip</button></div>
+</div></div>
+
+<!-- Recovery code -->
+<div id="rec" class="modal hide"><div class="card">
+  <h2>Save your recovery code</h2>
+  <p class="mute">There is no email in this app, so this code is the only way to reset your password if you forget it. Write it down or take a screenshot.</p>
+  <div class="code" id="reccode"></div>
+  <div class="row"><button class="btn alt" id="reccopy">Copy</button><button class="btn" id="recdone">I saved it</button></div>
+</div></div>
+
+<div id="toasts"></div>
+<script src="lessons.js"></script>
+<script src="store.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
